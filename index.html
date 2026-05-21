@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forlo — Privacy-first analytics</title>
+<meta name="description" content="Track every visitor without cookies or consent banners. One setup fee. No monthly bills. Your data stays on your server.">
+<meta property="og:title" content="Forlo — Privacy-first analytics">
+<meta property="og:description" content="No cookies. No consent banners. No monthly fees. Your data, your server.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://forlo.me">
+<meta property="og:image" content="https://forlo.me/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Forlo — Privacy-first analytics">
+<meta name="twitter:description" content="No cookies. No consent banners. No monthly fees.">
+<meta name="twitter:image" content="https://forlo.me/og.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230C0C0E'/><text y='23' x='4' font-family='Georgia,serif' font-size='21' fill='%236EE7B7'>f</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button{cursor:pointer;border:none;background:none;font:inherit}
+
+:root{
+  --c-bg:        #0C0C0E;
+  --c-surface:   #131316;
+  --c-surface-2: #1A1A1F;
+  --c-border:    rgba(255,255,255,0.07);
+  --c-border-2:  rgba(255,255,255,0.13);
+  --c-accent:    #6EE7B7;
+  --c-accent-bg: rgba(110,231,183,0.08);
+  --c-accent-tx: #052E1A;
+  --c-text-1:    #EFEFEF;
+  --c-text-2:    #8A8A96;
+  --c-text-3:    #4A4A55;
+  --f-sans: 'Instrument Sans',-apple-system,sans-serif;
+  --f-serif:'Instrument Serif',Georgia,serif;
+  --t-xs:11px; --t-sm:13px; --t-base:16px; --t-md:18px;
+  --t-lg:22px; --t-xl:28px; --t-2xl:36px; --t-3xl:48px; --t-4xl:60px;
+  --s-1:8px; --s-2:16px; --s-3:24px; --s-4:32px; --s-5:40px;
+  --s-6:48px; --s-8:64px; --s-10:80px; --s-12:96px; --s-16:128px;
+  --r-sm:4px; --r-md:8px; --r-lg:12px;
+  --w-max:1080px; --w-narrow:600px;
+}
+
+body{background:var(--c-bg);color:var(--c-text-1);font-family:var(--f-sans);font-size:var(--t-base);line-height:1.6}
+.wrap{width:100%;max-width:var(--w-max);margin:0 auto;padding:0 var(--s-4)}
+.wrap--narrow{max-width:var(--w-narrow);margin:0 auto;padding:0 var(--s-4)}
+.eyebrow{font-size:var(--t-xs);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-accent)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s-1);height:44px;padding:0 var(--s-3);border-radius:var(--r-md);font-family:var(--f-sans);font-size:var(--t-sm);font-weight:500;line-height:1;white-space:nowrap;transition:opacity 0.15s,background 0.15s,border-color 0.15s}
+.btn--primary{background:var(--c-accent);color:var(--c-accent-tx)}
+.btn--primary:hover{opacity:0.86}
+.btn--ghost{background:transparent;color:var(--c-text-2);border:1px solid var(--c-border-2)}
+.btn--ghost:hover{color:var(--c-text-1);border-color:rgba(255,255,255,0.22)}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:56px;display:flex;align-items:center;border-bottom:1px solid var(--c-border);background:rgba(12,12,14,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.nav__inner{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--w-max);margin:0 auto;padding:0 var(--s-4)}
+.nav__logo{font-family:var(--f-serif);font-size:var(--t-lg);font-weight:400;letter-spacing:-0.02em;color:var(--c-text-1)}
+.nav__logo em{font-style:italic;color:var(--c-accent)}
+.nav__links{display:flex;align-items:center;gap:var(--s-5)}
+.nav__links a{font-size:var(--t-sm);color:var(--c-text-2);transition:color 0.15s}
+.nav__links a:hover{color:var(--c-text-1)}
+
+.hero{padding-top:calc(56px + var(--s-16));padding-bottom:var(--s-16);text-align:center}
+.hero__badge{display:inline-flex;align-items:center;gap:var(--s-1);padding:6px var(--s-2);border:1px solid var(--c-border-2);border-radius:var(--r-sm);margin-bottom:var(--s-4)}
+.hero__dot{width:6px;height:6px;border-radius:50%;background:var(--c-accent);animation:blink 2.4s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.hero__heading{font-family:var(--f-serif);font-size:clamp(var(--t-2xl),5.5vw,var(--t-4xl));font-weight:400;line-height:1.06;letter-spacing:-0.025em;color:var(--c-text-1);max-width:720px;margin:0 auto var(--s-3)}
+.hero__heading em{font-style:italic;color:var(--c-accent)}
+.hero__sub{font-size:var(--t-md);color:var(--c-text-2);max-width:460px;margin:0 auto var(--s-5);line-height:1.6}
+.hero__actions{display:flex;align-items:center;justify-content:center;gap:var(--s-2);flex-wrap:wrap;margin-bottom:var(--s-4)}
+.hero__footnote{font-size:var(--t-xs);color:var(--c-text-3);letter-spacing:0.05em}
+
+.stats{border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border)}
+.stats__grid{display:grid;grid-template-columns:repeat(3,1fr);max-width:var(--w-max);margin:0 auto}
+.stats__item{padding:var(--s-6) var(--s-4);text-align:center;border-right:1px solid var(--c-border)}
+.stats__item:last-child{border-right:none}
+.stats__number{font-family:var(--f-serif);font-size:var(--t-2xl);font-weight:400;letter-spacing:-0.025em;color:var(--c-text-1);line-height:1;margin-bottom:var(--s-1)}
+.stats__number em{font-style:normal;color:var(--c-accent)}
+.stats__label{font-size:var(--t-sm);color:var(--c-text-2)}
+
+.section{padding:var(--s-16) 0}
+.section--alt{background:var(--c-surface);border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border)}
+.section__header{margin-bottom:var(--s-8)}
+.heading-lg{font-family:var(--f-serif);font-size:clamp(var(--t-xl),3.5vw,var(--t-3xl));font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--c-text-1)}
+.heading-lg em{font-style:italic;color:var(--c-accent)}
+.body-lg{font-size:var(--t-md);line-height:1.65;color:var(--c-text-2)}
+.body-sm{font-size:var(--t-sm);line-height:1.65;color:var(--c-text-2)}
+
+.problem__grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden}
+.problem__card{padding:var(--s-5) var(--s-4);background:var(--c-surface);border-right:1px solid var(--c-border)}
+.problem__card:last-child{border-right:none}
+.problem__num{font-family:var(--f-serif);font-size:var(--t-3xl);font-weight:400;color:var(--c-surface-2);line-height:1;margin-bottom:var(--s-4);letter-spacing:-0.03em;-webkit-text-stroke:1px var(--c-border-2)}
+.problem__title{font-size:var(--t-base);font-weight:500;color:var(--c-text-1);margin-bottom:var(--s-1)}
+
+.steps__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-1)}
+.step{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:var(--s-5) var(--s-4)}
+.step__index{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:var(--r-sm);background:var(--c-surface-2);border:1px solid var(--c-border-2);font-size:var(--t-xs);font-weight:500;color:var(--c-text-2);margin-bottom:var(--s-4)}
+.step__title{font-size:var(--t-base);font-weight:500;color:var(--c-text-1);margin-bottom:var(--s-1)}
+
+.features__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--c-border);border-radius:var(--r-lg);overflow:hidden;background:var(--c-border)}
+.feature{background:var(--c-surface);padding:var(--s-4)}
+.feature__dot{width:8px;height:8px;border-radius:50%;background:var(--c-accent);margin-bottom:var(--s-3)}
+.feature__title{font-size:var(--t-base);font-weight:500;color:var(--c-text-1);margin-bottom:6px}
+
+.pricing__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-2);align-items:start}
+.pricing-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--r-lg);padding:var(--s-5);position:relative}
+.pricing-card--featured{border-color:rgba(110,231,183,0.3);background:var(--c-accent-bg)}
+.pricing__badge{position:absolute;top:-12px;left:var(--s-5);background:var(--c-accent);color:var(--c-accent-tx);font-size:var(--t-xs);font-weight:500;letter-spacing:0.07em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-sm)}
+.pricing__tier{font-size:var(--t-xs);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text-2);margin-bottom:var(--s-4)}
+.pricing__amount{display:flex;align-items:baseline;gap:3px;margin-bottom:4px}
+.pricing__currency{font-family:var(--f-serif);font-size:var(--t-md);color:var(--c-text-2)}
+.pricing__number{font-family:var(--f-serif);font-size:var(--t-3xl);font-weight:400;letter-spacing:-0.03em;color:var(--c-text-1);line-height:1}
+.pricing__note{font-size:var(--t-xs);color:var(--c-text-3);margin-bottom:var(--s-5);letter-spacing:0.03em}
+.pricing__divider{height:1px;background:var(--c-border);margin-bottom:var(--s-4)}
+.pricing__features{display:flex;flex-direction:column;gap:12px;margin-bottom:var(--s-5)}
+.pricing__feature{display:flex;align-items:flex-start;gap:10px;font-size:var(--t-sm);color:var(--c-text-2);line-height:1.45}
+.pricing__tick{width:16px;height:16px;border-radius:50%;background:rgba(110,231,183,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pricing__tick svg{width:9px;height:9px;stroke:var(--c-accent)}
+.pricing__cta{display:block;text-align:center;height:44px;line-height:44px;border-radius:var(--r-md);font-size:var(--t-sm);font-weight:500;transition:opacity 0.15s,background 0.15s}
+.pricing__cta--default{border:1px solid var(--c-border-2);color:var(--c-text-1)}
+.pricing__cta--default:hover{background:var(--c-surface-2)}
+.pricing__cta--featured{background:var(--c-accent);color:var(--c-accent-tx)}
+.pricing__cta--featured:hover{opacity:0.88}
+
+.faq__list{border-top:1px solid var(--c-border)}
+.faq__item{border-bottom:1px solid var(--c-border)}
+.faq__question{display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);width:100%;padding:var(--s-4) 0;text-align:left;font-size:var(--t-base);font-weight:500;color:var(--c-text-1);cursor:pointer}
+.faq__icon{width:20px;height:20px;border-radius:50%;border:1px solid var(--c-border-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.15s,transform 0.25s ease}
+.faq__icon svg{width:10px;height:10px;stroke:var(--c-text-2);transition:stroke 0.15s}
+.faq__item.open .faq__icon{transform:rotate(45deg);border-color:rgba(110,231,183,0.35)}
+.faq__item.open .faq__icon svg{stroke:var(--c-accent)}
+.faq__answer{overflow:hidden;max-height:0;transition:max-height 0.3s ease}
+.faq__answer-inner{padding-bottom:var(--s-4);font-size:var(--t-sm);color:var(--c-text-2);line-height:1.7;max-width:580px}
+
+.cta-band{border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border);padding:var(--s-16) 0;text-align:center}
+
+.footer{padding:var(--s-8) 0}
+.footer__inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--s-3)}
+.footer__logo{font-family:var(--f-serif);font-size:var(--t-md);font-weight:400;letter-spacing:-0.02em;color:var(--c-text-1)}
+.footer__logo em{font-style:italic;color:var(--c-accent)}
+.footer__links{display:flex;align-items:center;gap:var(--s-4);flex-wrap:wrap}
+.footer__links a{font-size:var(--t-xs);color:var(--c-text-3);letter-spacing:0.03em;transition:color 0.15s}
+.footer__links a:hover{color:var(--c-text-2)}
+.footer__copy{font-size:var(--t-xs);color:var(--c-text-3);letter-spacing:0.03em}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity 0.5s ease,transform 0.5s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:900px){
+  .nav__links{display:none}
+  .problem__grid,.steps__grid,.features__grid,.pricing__grid{grid-template-columns:1fr}
+  .problem__card{border-right:none;border-bottom:1px solid var(--c-border)}
+  .problem__card:last-child{border-bottom:none}
+  .stats__grid{grid-template-columns:1fr}
+  .stats__item{border-right:none;border-bottom:1px solid var(--c-border)}
+  .stats__item:last-child{border-bottom:none}
+  .footer__inner{flex-direction:column;align-items:flex-start;gap:var(--s-3)}
+}
+@media(max-width:640px){
+  .hero{padding-top:calc(56px + var(--s-10));padding-bottom:var(--s-10)}
+  .section{padding:var(--s-10) 0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">forl<em>o</em></a>
+    <ul class="nav__links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#pricing" class="btn btn--primary">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__badge reveal">
+      <div class="hero__dot"></div>
+      <span class="eyebrow" style="text-transform:none;letter-spacing:0.05em;font-size:11px;">Cookie-free &nbsp;·&nbsp; No consent banners &nbsp;·&nbsp; You own your data</span>
+    </div>
+    <h1 class="hero__heading reveal">
+      Stop paying monthly<br>for analytics that<br><em>hurt your conversions.</em>
+    </h1>
+    <p class="hero__sub reveal">Forlo tracks every visitor without cookies. Your consent banner disappears. Your page loads faster. You pay once and you are done.</p>
+    <div class="hero__actions reveal">
+      <a href="#pricing" class="btn btn--primary">Get Forlo — from $47</a>
+      <a href="#how-it-works" class="btn btn--ghost">See how it works</a>
+    </div>
+    <p class="hero__footnote reveal">One-time setup &nbsp;·&nbsp; No subscription under standard limits &nbsp;·&nbsp; Your server, your data</p>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats__grid">
+    <div class="stats__item reveal">
+      <div class="stats__number"><em>$0</em></div>
+      <div class="stats__label">Monthly fees after setup</div>
+    </div>
+    <div class="stats__item reveal">
+      <div class="stats__number">10<em>min</em></div>
+      <div class="stats__label">Average time to go live</div>
+    </div>
+    <div class="stats__item reveal">
+      <div class="stats__number"><em>0</em></div>
+      <div class="stats__label">Cookies or personal data collected</div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="problem">
+  <div class="wrap">
+    <div class="section__header">
+      <p class="eyebrow" style="margin-bottom:var(--s-2);">The problem</p>
+      <h2 class="heading-lg reveal">Your analytics tool works against you<br>every time someone clicks your ad.</h2>
+      <p class="body-lg reveal" style="margin-top:var(--s-2);max-width:520px;">You pay for the click. Then the tool you use to measure it kills the conversion. Here is exactly how.</p>
+    </div>
+    <div class="problem__grid reveal">
+      <div class="problem__card">
+        <div class="problem__num">01</div>
+        <div class="problem__title">Your page loads too slowly</div>
+        <p class="body-sm">Standard analytics tools add a heavy JavaScript file to every page load. On mobile, visitors bounce before your page finishes. You pay for clicks that never see your offer.</p>
+      </div>
+      <div class="problem__card">
+        <div class="problem__num">02</div>
+        <div class="problem__title">A popup blocks the sale</div>
+        <p class="body-sm">Cookie-based analytics require a consent banner by law. Someone clicks your ad. A popup blocks them. The moment is gone. That conversion is dead before it starts.</p>
+      </div>
+      <div class="problem__card">
+        <div class="problem__num">03</div>
+        <div class="problem__title">You do not own your data</div>
+        <p class="body-sm">Your analytics sit on someone else's servers. They have changed the product before with no warning. Your traffic history is not yours unless it lives on your server.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="how-it-works">
+  <div class="wrap">
+    <div class="section__header">
+      <p class="eyebrow" style="margin-bottom:var(--s-2);">How it works</p>
+      <h2 class="heading-lg reveal">Three steps. <em>Done today.</em></h2>
+    </div>
+    <div class="steps__grid reveal">
+      <div class="step">
+        <div class="step__index">01</div>
+        <div class="step__title">Pick a plan and pay once</div>
+        <p class="body-sm">Choose your tier. Pay a single setup fee. No trial, no subscription, no renewal email six months from now.</p>
+      </div>
+      <div class="step">
+        <div class="step__index">02</div>
+        <div class="step__title">We set everything up</div>
+        <p class="body-sm">We deploy your private analytics dashboard to your own server. Your data never touches a third-party platform. We send you your login and your site installation code within 24 hours.</p>
+      </div>
+      <div class="step">
+        <div class="step__index">03</div>
+        <div class="step__title">Kill the cookie banner</div>
+        <p class="body-sm">Forlo collects zero personal data, so you have no legal obligation to show a consent popup. Remove it. Your page loads faster. More visitors convert.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="section__header">
+      <p class="eyebrow" style="margin-bottom:var(--s-2);">What you get</p>
+      <h2 class="heading-lg reveal">Everything you need.<br><em>Nothing you do not.</em></h2>
+    </div>
+    <div class="features__grid reveal">
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">Zero cookies</div>
+        <p class="body-sm">No personal identifiers collected. GDPR, CCPA, and PECR compliant with no extra configuration.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">Your own server</div>
+        <p class="body-sm">Your analytics run on your server. No third parties touch your data. Fully isolated, fully yours.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">Campaign tracking</div>
+        <p class="body-sm">See which posts, ads, and campaigns drive traffic. Full UTM breakdown included in every plan.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">Real-time dashboard</div>
+        <p class="body-sm">Live visitor count, top pages, referrers, devices, and locations. Readable in five seconds, no training required.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">No monthly fees</div>
+        <p class="body-sm">Pay once. Your instance runs on your server account with no ongoing cost under standard usage limits.</p>
+      </div>
+      <div class="feature">
+        <div class="feature__dot"></div>
+        <div class="feature__title">Works with your site</div>
+        <p class="body-sm">Shopify, Webflow, Framer, or plain HTML. Setup instructions for every platform come with every plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="pricing">
+  <div class="wrap">
+    <div class="section__header">
+      <p class="eyebrow" style="margin-bottom:var(--s-2);">Pricing</p>
+      <h2 class="heading-lg reveal">Pay once. <em>Own it.</em></h2>
+      <p class="body-lg reveal" style="margin-top:var(--s-2);">No subscriptions. No seats. No bill that grows when your traffic does.</p>
+    </div>
+    <div class="pricing__grid reveal">
+
+      <div class="pricing-card">
+        <div class="pricing__tier">Starter</div>
+        <div class="pricing__amount">
+          <span class="pricing__currency">$</span>
+          <span class="pricing__number">47</span>
+        </div>
+        <div class="pricing__note">One-time &nbsp;·&nbsp; Single site</div>
+        <div class="pricing__divider"></div>
+        <ul class="pricing__features">
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Private analytics deployment</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Custom domain connection</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Site installation guide</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Cookie banner removal guide</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>7-day email support</li>
+        </ul>
+        <a href="YOUR_STRIPE_STARTER_LINK" class="pricing__cta pricing__cta--default">Get Starter</a>
+      </div>
+
+      <div class="pricing-card pricing-card--featured">
+        <div class="pricing__badge">Most popular</div>
+        <div class="pricing__tier">Standard</div>
+        <div class="pricing__amount">
+          <span class="pricing__currency">$</span>
+          <span class="pricing__number">97</span>
+        </div>
+        <div class="pricing__note">One-time &nbsp;·&nbsp; Single site</div>
+        <div class="pricing__divider"></div>
+        <ul class="pricing__features">
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Everything in Starter</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Campaign tracking setup</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Instagram traffic dashboard</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Goal and conversion config</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>30-day email support</li>
+        </ul>
+        <a href="YOUR_STRIPE_STANDARD_LINK" class="pricing__cta pricing__cta--featured">Get Standard</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing__tier">Agency</div>
+        <div class="pricing__amount">
+          <span class="pricing__currency">$</span>
+          <span class="pricing__number">197</span>
+        </div>
+        <div class="pricing__note">One-time &nbsp;·&nbsp; Up to 5 sites</div>
+        <div class="pricing__divider"></div>
+        <ul class="pricing__features">
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Everything in Standard</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Up to 5 site deployments</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Team access configuration</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>Client handoff documentation</li>
+          <li class="pricing__feature"><div class="pricing__tick"><svg viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>60-day email support</li>
+        </ul>
+        <a href="YOUR_STRIPE_AGENCY_LINK" class="pricing__cta pricing__cta--default">Get Agency</a>
+      </div>
+
+    </div>
+    <p style="margin-top:var(--s-5);text-align:center;font-size:var(--t-xs);color:var(--c-text-3);letter-spacing:0.03em;line-height:1.7">
+      All plans include a one-time setup fee with no recurring subscription under standard usage limits.<br>
+      By purchasing you agree to our <a href="/terms" style="color:var(--c-text-2);text-decoration:underline;text-underline-offset:3px;">Terms of Service</a>, <a href="/privacy" style="color:var(--c-text-2);text-decoration:underline;text-underline-offset:3px;">Privacy Policy</a>, and <a href="/responsible-use" style="color:var(--c-text-2);text-decoration:underline;text-underline-offset:3px;">Responsible Use Policy</a>.
+    </p>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="wrap--narrow">
+    <p class="eyebrow" style="margin-bottom:var(--s-2);">Questions</p>
+    <h2 class="heading-lg reveal" style="margin-bottom:var(--s-8);">Straight answers.</h2>
+    <div class="faq__list">
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Does this work with my site?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">Yes. Forlo works with Shopify, Webflow, Framer, and any standard HTML site. You add one line of code to your site header. We walk you through it step by step. Most people are live in under ten minutes.</div>
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Can I actually remove my cookie banner?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">Yes. Forlo collects no cookies and no personal identifiers, so the legal requirement to show a consent banner does not apply. You remove it. Your page loads faster. Your conversions go up. We include a removal guide for every platform as part of your setup.</div>
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          How fast does setup happen?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">We complete your setup within 24 hours of purchase, usually faster. You get your dashboard login and your site installation code by email. Most clients are tracking live traffic the same day they buy.</div>
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          What does "no subscription" actually mean?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">You pay once for setup. Your analytics instance runs on your own server account at no cost under standard usage limits. If your traffic grows significantly, your server provider may charge you for additional resources. That is a direct relationship between you and them. Forlo never charges you again after day one.</div>
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          Who owns my data?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">You do. Your analytics instance lives on your server account. Your visitor data never passes through Forlo's systems after setup. It sits in your database, on your server, under your control.</div>
+        </div>
+      </div>
+
+      <div class="faq__item">
+        <button class="faq__question" onclick="toggleFaq(this)">
+          What is your refund policy?
+          <div class="faq__icon"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><line x1="6" y1="2" x2="6" y2="10"/><line x1="2" y1="6" x2="10" y2="6"/></svg></div>
+        </button>
+        <div class="faq__answer">
+          <div class="faq__answer-inner">If we cannot complete your setup, you get a full refund. Once setup is delivered and confirmed, purchases are final given the nature of the service. Read the full details in our <a href="/terms" style="color:var(--c-accent);">Terms of Service</a>.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="wrap--narrow">
+    <p class="eyebrow reveal" style="margin-bottom:var(--s-3);">Ready</p>
+    <h2 class="heading-lg reveal" style="margin-bottom:var(--s-3);">Your ad spend deserves better than a tool that blocks your conversions.</h2>
+    <p class="body-lg reveal" style="margin-bottom:var(--s-5);">Fix it today. One setup. No monthly bill.</p>
+    <a href="#pricing" class="btn btn--primary reveal" style="font-size:var(--t-base);height:48px;padding:0 var(--s-5);">See pricing</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__inner">
+      <span class="footer__logo">forl<em>o</em></span>
+      <div class="footer__links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/responsible-use">Responsible Use</a>
+        <a href="mailto:hello@forlo.me">hello@forlo.me</a>
+      </div>
+      <span class="footer__copy">&copy; 2025 Forlo. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  const item=btn.closest('.faq__item');
+  const answer=item.querySelector('.faq__answer');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq__item.open').forEach(el=>{
+    el.classList.remove('open');
+    el.querySelector('.faq__answer').style.maxHeight='0';
+  });
+  if(!isOpen){item.classList.add('open');answer.style.maxHeight=answer.scrollHeight+'px'}
+}
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*55);io.unobserve(e.target)}
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
